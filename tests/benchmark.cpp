@@ -6,9 +6,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include "compress/common.hpp"
-#include "compress/lev0.hpp"
-#include "compress/lev1.hpp"
+#include "compress/common.h"
+#include "compress/lev0.h"
+#include "compress/lev1.h"
 
 using Clock = std::chrono::steady_clock;
 

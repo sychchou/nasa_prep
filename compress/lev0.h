@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "compress/common.hpp"
+#include "compress/common.h"
 
 // compress_lev0: 120일치 원본을 전부 그대로 보관 (비교 기준선).
 class Lev0Store {

@@ -1,7 +1,7 @@
 CXX ?= c++
 CXXFLAGS ?= -std=c++17 -O2 -Wall -Wextra -I.
 
-build/benchmark: tests/benchmark.cpp $(wildcard compress/*.hpp)
+build/benchmark: tests/benchmark.cpp $(wildcard compress/*.h)
 	mkdir -p build
 	$(CXX) $(CXXFLAGS) -o $@ tests/benchmark.cpp
 

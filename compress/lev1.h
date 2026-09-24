@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "compress/common.hpp"
-#include "compress/ring_buffer.hpp"
+#include "compress/common.h"
+#include "compress/ring_buffer.h"
 
 // 바이오마커별 하루 샘플 수 (biodata.csv 측정 간격 기준)
 inline int samples_per_day(const std::string& biomarker) {

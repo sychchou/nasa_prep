@@ -9,9 +9,15 @@
 #include <string>
 #include <vector>
 
-// 시간은 1970-01-01 00:00(UTC)부터 지난 "분" 으로 저장한다.
+// 시간은 2026-01-01 00:00(데이터 시작)부터 지난 "분" 으로 저장한다.
+//   0 = 01-01 00:00,  60 = 01-01 01:00,  1440 = 01-02 00:00
 // 문자열보다 작고, 빼기/나머지로 구간 계산이 쉽다. (예: 시간 버킷 = t - t % 60)
+// 기준 시각 이전 데이터는 음수가 되어 t % 60 계산이 틀어지니 넣지 않는다.
 using Minutes = std::int64_t;
+
+// 2026-01-01 00:00 UTC 의 Unix time (1970-01-01 부터의 초).
+// C 표준 시간 함수(timegm, gmtime_r)는 1970 기준이라 변환할 때만 이 값을 빼고 더한다.
+constexpr std::time_t EPOCH_UNIX_SECS = 1767225600;
 
 struct Point {
     Minutes ts;
@@ -32,12 +38,12 @@ inline Minutes parse_ts(const std::string& s) {
         throw std::runtime_error("bad timestamp: " + s);
     tm.tm_year -= 1900;  // tm 은 1900 년 기준
     tm.tm_mon -= 1;      // tm 은 월이 0 부터
-    return timegm(&tm) / 60;
+    return (timegm(&tm) - EPOCH_UNIX_SECS) / 60;
 }
 
 // Minutes -> "2026-01-01 00:15"
 inline std::string format_ts(Minutes t) {
-    std::time_t secs = t * 60;
+    std::time_t secs = EPOCH_UNIX_SECS + t * 60;
     std::tm tm{};
     gmtime_r(&secs, &tm);
     char buf[17];

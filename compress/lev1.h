@@ -91,6 +91,21 @@ public:
         return n;
     }
 
+    std::vector<std::string> names() const {
+        std::vector<std::string> out;
+        for (const auto& [name, s] : series_) out.push_back(name);
+        return out;
+    }
+
+    // 링버퍼 내용 (오래된 것 -> 최신 순)
+    std::vector<Point> recent_points(const std::string& biomarker) const {
+        std::vector<Point> out;
+        auto it = series_.find(biomarker);
+        if (it == series_.end()) return out;
+        for (std::size_t i = 0; i < it->second.recent.size(); ++i) out.push_back(it->second.recent[i]);
+        return out;
+    }
+
     // 닫힌 버킷 + 아직 채우는 중인 버킷까지
     std::vector<Bucket> archive_rows(const std::string& biomarker) const {
         auto it = series_.find(biomarker);
